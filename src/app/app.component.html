@@ -1,0 +1,8 @@
+<div class="row">
+  <div class="sticky column left">
+    <app-list></app-list>
+</div>
+  <div class="column2">
+    <app-items [hidden]='dataService.data.alllist'></app-items>
+    <app-alllistitems [hidden]='!dataService.data.alllist'></app-alllistitems>
+  </div>

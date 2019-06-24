@@ -1,0 +1,15 @@
+<div *ngFor='let l of dataService.data.lists'>
+    <div *ngFor='let i of l.items'>
+      <div *ngIf='i.id == dataService.data.item_id'>    
+        <h1><div class="boderbox">{{i.summary}} details</div>
+        </h1>
+        <div >
+            <p>Summary :{{i.summary}}</p>
+            <p *ngIf='i.description'>Description :{{i.description}}</p>
+            <p>Is complete :{{i.is_complete}}</p>
+            <p *ngIf='i.due_date'>Due date :{{i.due_date}}</p>
+          </div>
+    </div>
+  </div>
+</div>
+  

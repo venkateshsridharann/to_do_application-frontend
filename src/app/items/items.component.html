@@ -1,0 +1,65 @@
+<div *ngFor='let l of dataService.data.lists'>
+  <div *ngIf='l.id == dataService.data.list_id'>
+    <h2 class='tiles2 text' style=" border-radius: 0px !important; width: 99%;">{{l.name}}</h2>
+    <div>
+        
+        <span id="sortbtn" (click)='dataService.sortbypriority()'>Sort Priority</span>
+    </div>
+    <br><br><br>
+    <div class=tiles2 style="padding : 10px">
+        <!-- default page  -->
+      <input type="text" [hidden]='!edit' class='add_item' #add_item name="add_item" placeholder="Add items and hit enter:" (keyup.enter)=" add_item.value = dataService.add_new_item(l.id, add_item.value)">
+        <br [hidden]='!edit'><br [hidden]='!edit'>
+        <div *ngFor='let i of l.items'>
+          <!-- display of items -->
+          <div [hidden]='!edit'>
+            <p class='tiles2' [hidden]="i.is_complete" (click)="dataService.data.item_id = i.id">
+               <input type="checkbox" name="is_complete" id="i.id" [(ngModel)]="i.is_complete" (change)='dataService.update_item_name(i.summary, i.is_complete, l.id, i.id)'>
+               {{i.summary}} 
+               
+              <img src="../../assets/delete.png" (click)='confirm_delete(l.id, i.id)' alt="delete" height=20px width="20px">
+              <img src="../../assets/edit.png"(click)='edit=!edit' alt="edit" height=20px width="20px">
+              <span class='priority'>Priority:{{i.priority}}</span>
+            </p> 
+          </div>
+
+            <!-- Edit page -->
+          <div [hidden]=edit>
+              <div *ngIf='i.id == this.dataService.data.item_id'>      
+              <h2 style="text-align:center;">Edit Item</h2>
+              <br>Summary:<br>
+                <input type="text" [(ngModel)]='i.summary' #summary name='summary' placeholder="Summary" (keydown.enter)='dataService.update_item_name(i.summary, i.is_complete, l.id, i.id, i.description, i.due_date)' (keydown.enter)='edit=!edit'>
+                <br><br>
+                Description:<br>
+                <input type="text" [(ngModel)]='i.description' #description name='description' placeholder="Description" (keydown.enter)='dataService.update_item_name(i.summary, i.is_complete, l.id, i.id, i.description, i.due_date)' (keydown.enter)='edit=!edit'>
+                <br><br>
+                Due Date:<br>
+                <input type="datetime-local" [(ngModel)]='i.due_date' #due_date name='due_date' placeholder="Due Date" (keydown.enter)='dataService.update_item_name(i.summary, i.is_complete, l.id, i.id, i.description, i.due_date)' (keydown.enter)='edit=!edit'>
+                <br><br>
+                Priority:<br>
+                <select  [(ngModel)]='i.priority' #priority name="priority">
+                    <option value=0>None</option>
+                    <option value=1>Low</option>
+                    <option value=2>Medium</option>
+                    <option value=3>High</option>
+                  </select>
+
+                <div >
+                  <button (click)='dataService.update_item_name(i.summary, i.is_complete, l.id, i.id, i.description, i.due_date, i.priority); edit=!edit'>Submit</button>
+                  <button (click)='edit=!edit'>Cancel</button>
+                </div>
+            </div>
+          </div>
+              <!--edit page end  -->
+              <!-- completed page -->
+        </div>
+        <br><br><br>
+        <span [hidden]='!edit'>
+          <h4 class="boderbox" id="completed" [hidden]='findcompleteditem(this.dataService.data.list_id)' (click)='disp=!disp'>Show/Hide Completed</h4>
+          <div [hidden]='!disp' *ngFor='let i of l.items'>
+            <p class='tiles2' [hidden]="!i.is_complete" (click)="dataService.data.item_id = i.id"> <input type="checkbox" name="is_complete" id="i.id" [(ngModel)]="i.is_complete" (change)='dataService.update_item_name(i.summary, i.is_complete, l.id, i.id)'>{{i.summary}} <img src="../../assets/delete.png" (click)='dataService.delete_item(l.id, i.id)' alt="delete" height=20px width="20px"><img src="../../assets/edit.png"(click)='edit=!edit' alt="edit" height=20px width="20px"></p>
+          </div>
+        </span>
+    </div>
+  </div>
+</div>

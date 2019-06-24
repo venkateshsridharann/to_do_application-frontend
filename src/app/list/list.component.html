@@ -1,0 +1,24 @@
+<div class='tiles2'> 
+    <!-- <span class='tiles' style="float:right; ">Settings<img style='height: 20px; width: 20px;' src="../../assets/settings.png" alt="settings"></span> -->
+  <br><br>
+  <input id="addlist" [hidden]='editflag' type="text" #add_list name="add" placeholder="Add a new List and hit enter:" (keyup.enter)="add_list.value = dataService.add_new_list(add_list.value)">
+  <br>
+  <br>
+  <div>
+    <div *ngFor ='let x of dataService.data.lists' id={{x.id}}>
+      <!-- <div *ngFor = "let ud of dataService.data.undone"> -->
+        <div [hidden]='editflag'>
+          <div class='text tiles' (click) ="dataService.data.alllist = false; dataService.data.list_id = x.id" >{{x.name}} <img src="../../assets/delete.png"(click)='confirm_delete(x.id)' alt="delete" height=20px width="20px"> <img src="../../assets/edit.png"(click)='editflag=!editflag' alt="edit" height=20px width="20px"> <span *ngIf='this.dataService.data.undone[2] > 0' class="dot">{{this.dataService.data.undone[2]}}</span> </div>
+        </div>
+        <!-- </div>     -->
+      <div *ngIf='x.id == dataService.data.list_id'>
+          <div class="fake-input" [hidden]='!editflag'>
+              <input #edit_list class='tiles' type="text" [value]='x.name' (keyup.enter)='dataService.update_list_name(edit_list.value, x.id); editflag=!editflag'/>
+              <img class='img1'(click)='editflag=!editflag' src="../../assets/delete.png" width='20px' height='20px'> <img class='img2' (click)='dataService.update_list_name(edit_list.value, x.id); editflag=!editflag' src="../../assets/done.png" width='20px' height='20px'> 
+          </div> 
+      </div>
+    </div>
+    <br>
+    <div class='tiles' [hidden]='editflag' (click)='dataService.data.alllist = true;'>All</div>
+  </div>
+</div>
